@@ -1,3 +1,4 @@
+package Lista1;
 import java.util.Scanner;
 
 public class lista1Tarefa7 {
