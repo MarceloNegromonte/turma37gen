@@ -24,7 +24,7 @@ public class Projeto {
 		String desejo, codigoProduto, confirmaCompra = " ";
 		boolean repete = true;
 		int opcaoPagamento = 0;
-		double quantidadeCompra, totalCompra, valorCompra, imposto, valor10Porcento, aumento15Porcento = 0.0;
+		double quantidadeCompra, totalCompra=0.0, valorCompra, imposto, valor10Porcento, aumento15Porcento = 0.0;
 		
 		
 		System.out.println("BEM VINDES A LOJA DEVSTORE");
@@ -61,7 +61,7 @@ public class Projeto {
 				codigoProduto = leia.next().toUpperCase();
 				System.out.println("CODIGO     PRODUTO     VALOR     ESTOQUE");
 				for (int linha=0;linha<10;linha++) {
-					if(codigoProduto == loja[linha][0]) {
+					if(codigoProduto.equals(loja[linha][0])) {
 						System.out.println(loja[linha][0]+"   "+"\t"+ loja[linha][1]+"\t"+loja[linha][2]+"\t"+loja[linha][3]);
 					}
 				}
@@ -71,7 +71,7 @@ public class Projeto {
 			for (int linha=0;linha<10;linha++) {
 				if (codigoProduto == loja[linha][0]) {
 					if (quantidadeCompra < Double.parseDouble(loja[linha][3])) { //falta mudar o tipo para comparar.
-						loja[linha][4] = Double.valueOf(quantidadeCompra).doubleValue(); // falta conversão
+					//	loja[linha][4] //= Double.valueOf(quantidadeCompra).doubleValue(); // falta conversão
 					}
 					else {
 						System.out.println("Não possui estoque suficiente.");
@@ -95,7 +95,62 @@ public class Projeto {
 			}			
 			}while(repete);
 		}
-		// parei na linha 116 portugol
+		for (int linha=0;linha<10;linha++) {
+			//valorCompra = tp.cadeia_para_real(loja[l][2]) * tp.cadeia_para_real(loja[l][4])
+	//falta ajeitar				//loja[l][3] = //tp.real_para_cadeia(tp.cadeia_para_real(loja[l][3]) - tp.cadeia_para_real(loja[l][4]))
+					//totalCompra += valorCompra;
+		}
+		System.out.println("Valor total da compra "+totalCompra);
+		imposto = totalCompra * 0.09;
+		System.out.println("Terá"+imposto+"em imposto sobre a compra ");
+		valor10Porcento = totalCompra * 0.10;
+		System.out.println("Caso o valor seja pago a vista terá: "+valor10Porcento+" de desconto");
+		System.out.println("Caso o valor seja pago no cartão terá: "+valor10Porcento+" de acrescimo");
+		System.out.println("Caso o valor seja pago no cartão em 2x terá: "+aumento15Porcento+" de acrescimo");
+		System.out.println("---------------------------------------------");
+		System.out.print("Escolha uma das opções de pagamento: 1- À vista, 2- Cartão, 3-Três vezes ");
+		opcaoPagamento = leia.nextInt();
+		
+		while (repete) {
+			if (opcaoPagamento == 1 || opcaoPagamento == 2 || opcaoPagamento == 3) {
+				break;
+				//falta colocar pra simular a nota
+			}
+			else {
+				System.out.println("OPÇÃO INVÁLIDA! DIGITE UMA DAS 3 OPÇÕES!");
+				opcaoPagamento = leia.nextInt();
+			}
+		}
+		System.out.println("-----------------------------------------------------------");
+		System.out.println("========================NOTA FISCAL========================");
+		System.out.println("-----------------------------------------------------------");
+		System.out.println("VALOR DA COMPRA SEM IMPOSTO: "+totalCompra);
+		System.out.println("VALOR DA COMPRA COM IMPOSTO: "+(totalCompra+imposto));
+		System.out.println("ITENS DA COMPRA: ");
+		
+		for (int linha=0;linha<10;linha++) {
+			if (loja[linha][4] != "0") {
+				System.out.println("PRODUTO: "+loja[linha][0]+ "PREÇO: "+loja[linha][1]+" QUANTIDADE COMPRADA: "+loja[linha][4]);
+			}
+		}
+		System.out.println("----------------------------------------------------------");
+		System.out.println("SELECIONAR FORMA DE PAGAMENTO: ");
+		switch(opcaoPagamento) {
+			case 1:
+				System.out.println("FORMA SELECIONADA: ");
+				System.out.println("PAGAMENTO À VISTA, DESCONTO DE 10%, VALOR FINAL: "+((totalCompra+imposto)-valor10Porcento));
+				break;
+			case 2:
+				System.out.println("FORMA SELECIONADA:");
+				System.out.println("PAGAMENTO NO CARTÃO, ACRESCIMO DE 10%, VALOR FINAL: "+((totalCompra+imposto)-valor10Porcento));
+			case 3:
+				System.out.println("FORMA SELECIONADA: ");
+				System.out.println("PAGAMENTO NO CARTÃO EM 2X, ACRESCIMO DE 15%, VALOR DAS PARCELAS: ");
+				//FALTA AJEITAR mat.arredondar(((( totalCompra+imposto ) + aumento15Porcento ) / 2 ) , 2 )
+				break;
+		}
+		System.out.println("-----------------------------------------------------------");
+		System.out.println("OBRIGADO POR CONFIAR NA NOSSA LOJA!");
 		
 	}
 
