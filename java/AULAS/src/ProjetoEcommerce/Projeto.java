@@ -155,3 +155,34 @@ public class Projeto {
 	}
 
 }
+
+/*se (sn == 's' ou sn == 'S'){ // Validar a quantidade de compra
+escreva("\nQual a quantidade? \n") // Pergunta ao clietne
+leia(quantidade)				// ler a quantidade
+
+se (quantidade > 0 e quantidade <= estoque[i]){ 
+	carrinho = quantidade * preco[i]  //Coloca no carrinho a quantidade para exibição
+	escreva("CARRINHO ATUAL: ", quantidade, " x ", produto[i],"\t Valor unitário: RS", preco[i], "\t TOTAL: R$", carrinho,"\n")// exibe carrinho para validação do cliente
+	escreva("\nESTA TUDO CERTO? CONFIRME SEU PEDIDO [S OU N] \n")  //Confirmação com o cliente
+	leia(sn)
+	se (sn == 's' ou sn == 'S'){ // desvio condicional para validação de estoque
+						  // Se o pedido for válido, faz as alterações
+	QuantdeCompra = QuantdeCompra + quantidade //Coloca a quantidade de compras = quantidade que estava no carrinho
+	ValorFinal = ValorFinal + carrinho //valor final da compra soma com o que foi colocado no carrinho
+	estoque[i] = estoque[i] - quantidade//Retira a quantidade solicitada de produtos do estoque
+	ProdutoFinal[i] = produto[i] //Coloca o produto pedido no vetor do carrinho
+	se (produto[i] == ProdutoFinal[i]){//Condicional para validaer se o produto já está no carrinho
+		VALORFINAL[i] = VALORFINAL[i] + carrinho//Se já estiver, soma o valor atual do carrinho atualizado
+		QuantFinal[i]+= quantidade //se jaáestiver, soma a quantidade do carrinho para mostrar atualizado
+		
+		}
+	}
+}senao{
+escreva("ESTOQUE INDISPONÓVEL! \nVERIFIQUE A LISTA E INFORME UMA QUANTIDADE VÁLIDA\nAPERTE ENTER PARA CONTINUAR\n\n")
+leia(y)
+}
+
+
+}escreva("\nSALDO RESTANTE: ", produto[i],"\t",estoque[i],"\n") //exibe a quantidade atualizada do estoque do produto
+}
+*/
