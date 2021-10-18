@@ -1,10 +1,13 @@
 package ProjetoEcommerce;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Projeto2 {
 
 	public static void main(String[] args) {
+		
 		
 		Scanner leia = new Scanner(System.in);
 		String loja [][] = {
@@ -24,6 +27,7 @@ public class Projeto2 {
 		 double totalCompra = 0.0, valorCompra = 0.0, imposto = 0.0, valor10Porcento = 0.0, aumento15Porcento=0.0;
 		 int qtdCompra = 0;
 		 
+	
 		 while(repete) {
 			 System.out.println("Olá, deseja fazer compra? (s/n): ");
 			 desejo = leia.next();
