@@ -18,9 +18,9 @@ import javax.validation.constraints.Size;
 public class Postagem {
 
 	//atributos
-	@Id //o atributo se trata de um ID.
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //valor será gerado com a estrategia do tipo identidade. no banco de dados o atribudo vai se transformar em uma chave primaria.
-	private long id;
+	//@Id //o atributo se trata de um ID.
+	//@GeneratedValue(strategy = GenerationType.IDENTITY) //valor será gerado com a estrategia do tipo identidade. no banco de dados o atribudo vai se transformar em uma chave primaria.
+	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 	
 	@NotNull //não pode ser null
 	@Size(min = 5, max = 100)//minimo 5, max 100 caracteres
