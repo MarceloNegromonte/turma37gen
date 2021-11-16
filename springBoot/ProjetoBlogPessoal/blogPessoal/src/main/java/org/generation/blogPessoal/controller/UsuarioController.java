@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +24,8 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService; //diferente das outas, essa classe injeta o usuario servico e não repository
 
-	@PostMapping("/logar") //criação para logar
-	public ResponseEntity<UserLogin> Autentication(@RequestBody Optional<UserLogin> user){ //optinal, pode vir como nao pode vir nada
+	@PutMapping("/logar") //criação para logar
+	public ResponseEntity<UserLogin> autentication(@RequestBody Optional<UserLogin> user){ //optinal, pode vir como nao pode vir nada
 		return usuarioService.logar(user).map(resp -> ResponseEntity.ok(resp)) //retorna usarioService 
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()); //se não tiver autorização retorna um httpstatus de sem autorização
 	}

@@ -1,18 +1,20 @@
 package org.generation.blogPessoal.seguranca;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.generation.blogPessoal.model.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+//DTO
 public class UserDetailsImpl implements UserDetails {
 	//classe user details implementação    | // vamos implementar uma regra de negocio que já existe, da interface userDetails.
+
+	private static final Long serialVersionUID = 1L; //faz a classe ser apenas para controle interno // serial de identificação 
 	
-	private static final Long serialVersionUID = 1L; //faz a classe ser apenas para controle interno
-	
-	private String userName;
+	private String userName; //usuario identificador
 	private String password;
+	private List<GrantedAuthority> authorities; //diz que pode passar algumas coisas dentro desse metodo
 	
 	public UserDetailsImpl(Usuario user) { // construtor de classe, recebendo como parametro o User com login e senha
 		this.userName = user.getUsuario();

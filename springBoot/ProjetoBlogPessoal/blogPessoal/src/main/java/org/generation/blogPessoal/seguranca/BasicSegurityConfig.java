@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableWebSecurity
+@EnableWebSecurity //declara que é classe de segurança
 public class BasicSegurityConfig extends WebSecurityConfigurerAdapter {
 
 	//camada de configuração basica da segurança;
@@ -36,7 +36,7 @@ public class BasicSegurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/usuario").permitAll() //libera endpoint para cadastrar
 		.anyRequest().authenticated() //as demais requisições precisam de autenticação
 		.and().httpBasic() //padrão basic para gerar chave token
-		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //indica o tipo de sessão que iremos utilizar, STATELESS = não vai guardar sessão
+		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //configuração do tipo de tempo que irá ficar pendindo validação de login no site, indica o tipo de sessão que iremos acessar, STATELESS = não vai guardar sessão, deixa em aberto para o front end colocar o tempo
 		.and().cors() //para habilitar o cors(nao sei o que é)
 		.and().csrf().disable(); //usado para desabilitar o csrf, configuração padrão e não personalizada.
 	}
