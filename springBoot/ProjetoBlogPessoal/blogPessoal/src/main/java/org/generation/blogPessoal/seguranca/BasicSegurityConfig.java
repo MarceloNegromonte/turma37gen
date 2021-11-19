@@ -1,5 +1,8 @@
 package org.generation.blogPessoal.seguranca;
-
+//A camada Basic Security Config é uma uma classe de configuração, é ela que configurar o
+//po de criptografia que será ulizada na senha, qual o po de segurança que ulizaremos (no nosso caso o
+//basic), e também quais End Point’s que serão liberados para que usuário possa acessar, como por
+//exemplo End Point de Logar e Cadastrar.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

@@ -1,5 +1,6 @@
 package org.generation.blogPessoal.seguranca;
-
+//User Details é uma camada que contem todos os métodos que podemos chamar no User Details Service
+//e em outras camadas.
 import java.util.Collection;
 import java.util.List;
 

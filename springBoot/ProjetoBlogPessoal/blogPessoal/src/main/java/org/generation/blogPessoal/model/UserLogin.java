@@ -1,5 +1,6 @@
 package org.generation.blogPessoal.model;
-
+//O Controller que rebeberá o Usurio com seu login e sua senha, e devolverá o recurso com a
+//Authorization Basic + token.
 public class UserLogin {
 
 	//criada sem anotation

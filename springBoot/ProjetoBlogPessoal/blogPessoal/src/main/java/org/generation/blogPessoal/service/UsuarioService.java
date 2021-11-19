@@ -1,5 +1,6 @@
 package org.generation.blogPessoal.service;
-
+//Usuario Repository é a camada que ja existia no projeto de ecommerce, porem dentro dela fizemos um
+//findByusuario, atravé deste Method Query podemos implementar a consulta do login.
 import java.nio.charset.Charset;
 import java.util.Optional;
 import org.apache.commons.codec.binary.Base64;
@@ -36,8 +37,8 @@ public class UsuarioService {
 			if(encoder.matches(user.get().getSenha(), usuario.get().getSenha())) { //se for igual uma senha com a outra, vai entrar nesse if
 				
 				String auth = user.get().getUsuario() + ":" + user.get().getSenha(); //variavel tipo string nome auth, vai concatenar 2 informações, usuario e senha com : entre elas
-				byte[] encodeAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII"))); //array de byte, pega o encode codificado em base64 e dentro desse code ele receber a string auth e dentro da string tem o formato byte no formato USACCI
-				String authHeader = "Basic " + new String(encodeAuth); //criando string de no autenticação head, e dentro dela passamos o prefixo basic e concatena com instacia de novo String recebendo (encodeAuth)
+				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII"))); //array de byte, pega o encode codificado em base64 e dentro desse code ele receber a string auth e dentro da string tem o formato byte no formato USACCI
+				String authHeader = "Basic " + new String(encodedAuth); //criando string de no autenticação head, e dentro dela passamos o prefixo basic e concatena com instacia de novo String recebendo (encodeAuth)
 			
 				user.get().setToken(authHeader); //pega o user. get e colocar a informação do authHeader
 				user.get().setNome(usuario.get().getNome()); //acessa o user e colocar  que veio no usarName;;

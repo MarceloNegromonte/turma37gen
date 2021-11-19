@@ -1,5 +1,5 @@
 	package org.generation.blogPessoal.seguranca;
-
+////User Details Service Camada responsável diretamente para validação da senha e criação do Basic token.
 import java.util.Optional;
 
 import org.generation.blogPessoal.model.Usuario;
