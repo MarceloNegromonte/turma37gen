@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping
+@RequestMapping("/usuario")
 @CrossOrigin(origins = "*", allowedHeaders = "*") //2 parametros, as origins todas e alloheadss é pra dizer que dentro do hears iremos aceitas qualquer informação
 public class UsuarioController {
 
