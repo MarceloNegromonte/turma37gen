@@ -17,9 +17,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity // significa que essa classe vai ser uma entidade do jpa reberente ou referente.
-@Table(name = "postagem") // atraves dessa anotação que essa entidade dentro do bancos de dados vai ser
-							// uma tabela
-
+@Table(name = "postagem") // atraves dessa anotação que essa entidade dentro do bancos de dados vai ser// uma tabela
 public class Postagem {
 
 	// atributos
@@ -44,6 +42,11 @@ public class Postagem {
 	@JoinColumn(name = "usuario_id")
 	@JsonIgnoreProperties({"minhasPostagens"})
 	private Usuario criador;
+	
+	@ManyToOne
+	@JoinColumn(name = "tema_id")
+	@JsonIgnoreProperties({"postagem"})
+	private Tema tema;
 
 	public Long getId() {
 		return id;
@@ -83,6 +86,14 @@ public class Postagem {
 
 	public void setCriador(Usuario criador) {
 		this.criador = criador;
+	}
+
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 		
 }

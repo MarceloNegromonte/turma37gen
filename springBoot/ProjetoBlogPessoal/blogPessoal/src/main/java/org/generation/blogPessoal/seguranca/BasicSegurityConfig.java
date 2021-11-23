@@ -26,6 +26,8 @@ public class BasicSegurityConfig extends WebSecurityConfigurerAdapter {
 	@Override //sobreescrita 									//THROWS tratativa de erros 
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{ //pacote protegido do tipo vazio, recebe com parameto Authentication... nomeado como auth
 		auth.userDetailsService(userDetailService); //chama o que recebemos, o auth, como parametro usamos o userdetailservice, e passamos o userdetailservice que injetamos.
+		auth.inMemoryAuthentication().withUser("boaz").password(passwordEncoder().encode("boaz")).authorities("ROLE_ADMIN");
+
 	}
 	
 	@Bean //usar o @Bean em um método, e tornar a instância retornada pelo método como um objeto gerenciado pelo Spring (seja de uma classe própria ou de terceiros)
