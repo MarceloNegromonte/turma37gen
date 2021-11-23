@@ -3,49 +3,84 @@ package org.generation.blogPessoal.service;
 //findByusuario, atravé deste Method Query podemos implementar a consulta do login.
 import java.nio.charset.Charset;
 import java.util.Optional;
-import org.apache.commons.codec.binary.Base64;
 
+import javax.validation.Valid;
+
+import org.apache.commons.codec.binary.Base64;
 import org.generation.blogPessoal.model.UserLogin;
+//import org.generation.blogPessoal.model.UserLogin;
 import org.generation.blogPessoal.model.Usuario;
 import org.generation.blogPessoal.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-@Service //trata-se de um serviço
+@Service
 public class UsuarioService {
 
-	@Autowired //injetando
-	private UsuarioRepository repository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
-	public Usuario cadastrarUsuario(Usuario usuario) { //metodo para cadastrar usuario
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); //criar um objeto encoder(exatamento o tipo que colocamos na classe de configuração)
-	
-		//regra de negocio referente a cadastrar usuario
-		String senhaEnconder = encoder.encode(usuario.getSenha()); //criar uma variavel de senha, do tipo encoder, que vai receber a senha do usuario
-		usuario.setSenha(senhaEnconder); //salva a senha encoder(encripitada) e salva
-	
-		return repository.save(usuario); //salva no repositorio
+	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
+		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
+		usuario.setSenha(criptografarSenha(usuario.getSenha()));
+
+		return Optional.of(usuarioRepository.save(usuario));
+
 	}
-	
-	//regra de negocio para logar
-	public Optional<UserLogin> logar(Optional<UserLogin> user) { //vai retornar para o usuario o user, nome, senha e token
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); //criar um objeto encoder
-		Optional<Usuario> usuario = repository.findByUsuario(user.get().getUsuario()); //fazer a pesquisa pelo nome do usario
-		
-		if(usuario.isPresent()) {//se tiver algo dentro do objeto usuario, vai comparar a senha dada pela senha que tem
-			if(encoder.matches(user.get().getSenha(), usuario.get().getSenha())) { //se for igual uma senha com a outra, vai entrar nesse if
-				
-				String auth = user.get().getUsuario() + ":" + user.get().getSenha(); //variavel tipo string nome auth, vai concatenar 2 informações, usuario e senha com : entre elas
-				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII"))); //array de byte, pega o encode codificado em base64 e dentro desse code ele receber a string auth e dentro da string tem o formato byte no formato USACCI
-				String authHeader = "Basic " + new String(encodedAuth); //criando string de no autenticação head, e dentro dela passamos o prefixo basic e concatena com instacia de novo String recebendo (encodeAuth)
-			
-				user.get().setToken(authHeader); //pega o user. get e colocar a informação do authHeader
-				user.get().setNome(usuario.get().getNome()); //acessa o user e colocar  que veio no usarName;;
-			
-				return user; //retorna o user
+
+	public Optional<Usuario> atualizarUsuario(Usuario usuario) {
+		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
+			Optional<Usuario> buscaUsuario = usuarioRepository.findByUsuario(usuario.getUsuario());
+			if (buscaUsuario.isPresent()) {				
+				if (buscaUsuario.get().getId() != usuario.getId())
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 			}
-		}
-		return null; //se não entrar no if retorna um nulo
+			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+
+			return Optional.of(usuarioRepository.save(usuario));
+		} 
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!", null);		
+	}	
+
+	public Optional<UserLogin> logarUsuario(Optional<UserLogin> usuarioLogin) {
+		Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioLogin.get().getUsuario());
+		if (usuario.isPresent()) {
+			if (compararSenhas(usuarioLogin.get().getSenha(), usuario.get().getSenha())) {
+				usuarioLogin.get().setId(usuario.get().getId());				
+				usuarioLogin.get().setNome(usuario.get().getNome());
+				usuarioLogin.get().setFoto(usuario.get().getFoto());
+				usuarioLogin.get().setSenha(usuario.get().getSenha());
+				usuarioLogin.get().setToken(generatorBasicToken(usuarioLogin.get().getUsuario(), usuarioLogin.get().getSenha()));
+
+				return usuarioLogin;
+			}
+		}		
+		throw new ResponseStatusException(
+				HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos!", null);
 	}
+
+	private String criptografarSenha(String senha) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String senhaEncoder = encoder.encode(senha);
+
+		return senhaEncoder;
+	}
+
+	private boolean compararSenhas(String senhaDigitada, String senhaBanco) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		return encoder.matches(senhaDigitada, senhaBanco);		
+	}
+
+	private String generatorBasicToken(String email, String password) {
+		String structure = email + ":" + password;
+		byte[] structureBase64 = Base64.encodeBase64(structure.getBytes(Charset.forName("US-ASCII")));
+
+		return "Basic " + new String(structureBase64);
+	}
+
 }

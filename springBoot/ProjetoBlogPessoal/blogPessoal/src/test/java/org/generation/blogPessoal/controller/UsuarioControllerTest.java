@@ -32,6 +32,7 @@ public class UsuarioControllerTest {
 	private TestRestTemplate testRestTemplate;
 	private Usuario usuarioAdmin;
 
+	/*
 	@BeforeAll
 	public void start(){
 		
@@ -56,7 +57,7 @@ public class UsuarioControllerTest {
 		"paulo_souza@email.com.br", "souza123", dataPut);
 	
 	}
-
+		*/
 	@Test
 	@Order(2)
 	@DisplayName("👍 Listar todos os Usuários!")

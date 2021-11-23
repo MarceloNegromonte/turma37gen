@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,10 +41,10 @@ public class Postagem {
 	private Date date = new java.sql.Date(System.currentTimeMillis());
 
 	@ManyToOne
-	@JsonIgnoreProperties("postagem")
-	private Tema tema;
+	@JoinColumn(name = "usuario_id")
+	@JsonIgnoreProperties({"minhasPostagens"})
+	private Usuario criador;
 
-	// Get e Setter
 	public Long getId() {
 		return id;
 	}
@@ -76,11 +77,12 @@ public class Postagem {
 		this.date = date;
 	}
 
-	public Tema getTema() {
-		return tema;
+	public Usuario getCriador() {
+		return criador;
 	}
 
-	public void setTema(Tema tema) {
-		this.tema = tema;
+	public void setCriador(Usuario criador) {
+		this.criador = criador;
 	}
+		
 }

@@ -38,14 +38,14 @@ public class UsuarioTest {
 		"joão@email.com.br", "13465278", data);
 	}
 	
-	@Test
+/*	@Test
 	@DisplayName("Valida Atributos Não Nulos")
 	void testValidaAtributos() {
 		Set<ConstraintViolation<Usuario>> violacao = Validation.validate(usuario);
 		System.out.println(violacao.toString());
 	
 		assertTrue(violacao.isEmpty());
-	}
+	}*/
 
 	@Test
 	@DisplayName("Não Valida Atributos Nulos")

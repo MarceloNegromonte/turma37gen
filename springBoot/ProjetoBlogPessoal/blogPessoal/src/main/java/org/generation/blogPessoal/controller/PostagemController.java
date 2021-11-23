@@ -1,6 +1,9 @@
 package org.generation.blogPessoal.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.generation.blogPessoal.model.Postagem;
 import org.generation.blogPessoal.repository.PostagemRepository;
@@ -15,11 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController //informa para o String que trata de uma classe controladora
 @RequestMapping("/postagem") //informa qual a URI a classe será acessada
-@CrossOrigin("*") //informar que a classe vai aceitar requisições de qualquer origem
+@CrossOrigin(value = "*", allowedHeaders = "*") //informar que a classe vai aceitar requisições de qualquer origem
 public class PostagemController {
 
 	@Autowired //garante que todos os serviços da inteface postagem repository, seja acessado a partir do controller
@@ -43,18 +48,26 @@ public class PostagemController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Postagem> post (@RequestBody Postagem postagem){ //requesbody pra pegar o que vem no corpo da requisição
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
+	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
+	        return ResponseEntity.status(HttpStatus.CREATED)
+			        .body(repository.save(postagem));
 	}
 	
-	@PutMapping //
-	public ResponseEntity<Postagem> put (@RequestBody Postagem postagem){ //requesbody pra pegar o que vem no corpo da requisição
-		return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
+	@PutMapping
+	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem){
+	        return repository.findById(postagem.getId())
+			        .map(resp -> ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem)))
+			        .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 	
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		repository.deleteById(id);
+	public void delete(@PathVariable long id) {
+	        Optional<Postagem> post = repository.findById(id);
+	        if(post.isEmpty())
+		        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+	        repository.deleteById(id);				
+
 	}
 	
 }

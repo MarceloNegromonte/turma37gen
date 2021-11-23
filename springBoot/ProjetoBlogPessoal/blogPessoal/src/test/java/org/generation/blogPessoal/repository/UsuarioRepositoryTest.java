@@ -22,7 +22,7 @@ public class UsuarioRepositoryTest {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+/*
 	@BeforeAll
 	void start(){
 
@@ -47,7 +47,7 @@ public class UsuarioRepositoryTest {
 				"paulo@email.com.br", "13465278", data);
 				if(!UsuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
 				usuarioRepository.save(usuario);
-	}
+	}*/
 
 	@Test
 	@DisplayName("💾 Retorna o nome")
